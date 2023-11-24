@@ -1,0 +1,19 @@
+;;; -*- coding: utf-8; mode: lisp-data -*-
+(("/home/nico/.config/emacs/config.org" . 7008)
+ ("/home/nico/.config/emacs/eshell/aliases" . 548)
+ ("/home/nico/.config/emacs/eshell/"
+  (dired-filename . "/home/nico/.config/emacs/eshell/history"))
+ ("/home/nico/.config/emacs/"
+  (dired-filename . "/home/nico/.config/emacs/.."))
+ ("/home/nico/.config/"
+  (dired-filename . "/home/nico/.config/zsh"))
+ ("/home/nico/.config/zsh/"
+  (dired-filename . "/home/nico/.config/zsh/.zshrc"))
+ ("/home/nico/.config/zsh/.zshrc" . 1080)
+ ("/home/nico/.config/emacs/config.el" . 966)
+ ("/home/nico/.config/emacs/eshell/profile" . 18)
+ ("/home/nico/.config/dwm/"
+  (dired-filename . "/home/nico/.config/dwm/autostart.sh"))
+ ("/home/nico/.config/dwm/autostart.sh" . 511)
+ ("/home/nico/.config/bspwm/" . 240)
+ ("/home/nico/.config/katerc" . 958))

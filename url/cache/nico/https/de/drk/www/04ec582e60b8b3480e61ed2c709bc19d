@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 24 Nov 2023 21:07:47 GMT
+Content-Type: image/svg+xml
+Last-Modified: Thu, 23 Nov 2023 08:19:26 GMT
+Transfer-Encoding: chunked
+Connection: keep-alive
+Vary: Accept-Encoding
+ETag: W/"655f0b0e-476"
+
+<?xml version="1.0" encoding="UTF-8"?><svg id="b" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 63.82 63.94"><defs><linearGradient id="d" x1="-639.83" y1="411.45" x2="-638.83" y2="410.45" gradientTransform="translate(40831.1 26307.28) scale(63.82 -63.94)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#002d55"/><stop offset="1" stop-color="#2276d0"/></linearGradient></defs><g id="c"><path id="e" d="M31.99,63.94C14.31,63.93-.01,49.59,0,31.91,0,19.06,7.7,7.46,19.53,2.45c16.33-6.77,35.06,.97,41.83,17.3,6.71,16.18-.83,34.75-16.92,41.67-3.94,1.67-8.18,2.52-12.46,2.51ZM19.03,16.77c-1.21,0-2.2,.98-2.22,2.19v25.96c.02,1.21,1,2.18,2.21,2.19h25.91c1.21,0,2.2-.98,2.22-2.19V18.95c-.02-1.2-.99-2.17-2.19-2.19H19.03Zm14.11,25.85h-4.5v-14.48h4.32v1.98h.06c.85-1.45,2.4-2.34,4.08-2.34h.18c2.12,0,3.56,.65,4.41,1.99,.78,1.51,1.13,3.21,.99,4.91v7.94h-4.5v-7.03c0-1.62,0-3.84-2.34-3.84s-2.7,1.88-2.7,3.72v7.16h0Zm-7.32,0h-4.5v-14.48h4.5v14.48h0Zm-2.25-16.46h0c-1.44,0-2.61-1.17-2.61-2.61s1.17-2.61,2.61-2.61,2.61,1.17,2.61,2.61h0c0,1.44-1.17,2.61-2.61,2.61h0Z" style="fill:url(#d);"/></g></svg>

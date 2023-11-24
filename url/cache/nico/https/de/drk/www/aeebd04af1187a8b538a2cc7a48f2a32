@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Fri, 24 Nov 2023 21:07:47 GMT
+Content-Type: image/svg+xml
+Content-Length: 222
+Last-Modified: Thu, 23 Nov 2023 08:19:26 GMT
+Connection: keep-alive
+ETag: "655f0b0e-de"
+Accept-Ranges: bytes
+
+<svg xmlns="http://www.w3.org/2000/svg" id="flag-icons-de" viewBox="0 0 640 480">
+  <path fill="#ffce00" d="M0 320h640v160H0z"/>
+  <path fill="#000" d="M0 0h640v160H0z"/>
+  <path fill="#d00" d="M0 160h640v160H0z"/>
+</svg>

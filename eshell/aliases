@@ -1,0 +1,17 @@
+alias vim nvim
+alias make make -j 24
+alias .. cd ..
+alias home cd ~
+alias cp cp -i
+alias mv mv -i
+alias rm rm -i
+
+alias ls exa -al --icons --color=always --group-directories-first
+alias la exa -a --icons --color=always --group-directories-first
+alias ll exa -l --icons --color=always --group-directories-first
+alias lt exa -aT --icons --color=always --group-directories-first
+alias l .exa --icons -a | egrep "^\."'
+
+alias cat bat
+alias htop btop -p 0
+alias rr curl -s -L https://raw.githubusercontent.com/keroserene/rickrollrc/master/roll.sh | bash
