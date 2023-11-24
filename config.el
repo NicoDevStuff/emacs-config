@@ -52,11 +52,19 @@
     (setq evil-vsplit-window-right t)
     (setq evil-split-window-below t)
     (evil-mode))
-  (use-package evil-collection
+(use-package evil-collection
     :after evil
     :config
     (setq evil-collection-mode-list '(dashboard dired ibuffer))
     (evil-collection-init))
+
+(use-package undo-tree
+:ensure t
+:after evil
+:diminish
+:config
+(evil-set-undo-system 'undo-tree)
+(global-undo-tree-mode 1))
 
 (use-package general
   :config
@@ -78,6 +86,19 @@
     "b r" '(revert-buffer :wk "Reload buffer")
     "b m" '(next-buffer :wk "Next buffer")
     "b n" '(previous-buffer :wk "Previous buffer"))
+
+  (nicodevstuff/leader-keys
+    "m" '(:ignore t :wk "Org")
+    "m a" '(org-agenda :wk "Org agenda")
+    "m e" '(org-export-dispatch :wk "Org export dispatch")
+    "m i" '(org-toggle-item :wk "Org toggle item")
+    "m t" '(org-todo :wk "Org todo")
+    "m B" '(org-babel-tangle :wk "Org babel tangle")
+    "m T" '(org-todo-list :wk "Org todo list"))
+
+  (nicodevstuff/leader-keys
+    "m b" '(:ignore t :wk "Tables")
+    "m b -" '(org-table-insert-hline :wk "Insert hline in table"))    
 
   ; Window keybinds
   (nicodevstuff/leader-keys
@@ -145,15 +166,15 @@
 
 (set-face-attribute 'default nil
   :font "JetBrains Mono"
-  :height 110
+  :height 140
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Ubuntu"
-  :height 120
+  :height 150
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "JetBrains Mono"
-  :height 110
+  :height 140
   :weight 'medium)
 (set-face-attribute 'font-lock-comment-face nil
   :slant 'italic)
@@ -164,13 +185,43 @@
 
 (setq-default line-spacing 0.12)
 
+(use-package dashboard
+    :ensure t 
+    :init
+    (setq initial-buffer-choice 'dashboard-open)
+    (setq dashboard-set-heading-icons t)
+    (setq dashboard-set-file-icons t)
+    (setq dashboard-banner-logo-title "")
+    ;;(setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+    (setq dashboard-startup-banner "~/.config/emacs/images/emacs-dash.png")  ;; use custom image as banner
+    (setq dashboard-center-content nil) ;; set to 't' for centered content
+    (setq dashboard-items '((recents . 5)
+                            (agenda . 5 )
+                            ))    
+    :custom
+    (dashboard-modify-heading-icons '((recents . "file-text")))
+
+    :config
+    (dashboard-setup-startup-hook))
+
+(use-package diminish)
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
+
 (electric-indent-mode -1)
+  
+(setq org-edit-src-content-indentation 0)
+
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+(setq-default smart-indent t)
+(setq-default auto-indent t)
 
 (require 'windmove)
 
@@ -285,6 +336,7 @@ one, an error is signaled."
 
 (use-package counsel
   :after ivy
+  :diminish
   :config (counsel-mode))
 
 (use-package ivy
@@ -296,6 +348,7 @@ one, an error is signaled."
   (setq ivy-use-virtual-buffers t)
   (setq ivy-count-format "(%d/%d) ")
   (setq enable-recursive-minibuffers t)
+  :diminish
   :config
   (ivy-mode))
 
@@ -311,6 +364,7 @@ one, an error is signaled."
   (ivy-virtual-abbreviate 'full
    ivy-rich-switch-buffer-align-virtual-buffer t
    ivy-rich-path-style 'abbrev)
+  :diminish
   :config
   (ivy-set-display-transformer 'ivy-switch-buffer
                                'ivy-rich-switch-buffer-transformer))
@@ -322,6 +376,32 @@ one, an error is signaled."
 (add-hook 'org-mode-hook 'org-indent-mode)
 (use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+
+(require 'org-tempo)
+
+(use-package lua-mode)
+
+(use-package flycheck
+  :ensure t
+  :defer t
+  :diminish
+  :init (global-flycheck-mode))
+
+(use-package company
+  :defer 2
+  :diminish
+  :custom
+  (company-begin-commands '(self-insert-command))
+  (company-idle-delay .1)
+  (company-minimum-prefix-length 2)
+  (company-show-numbers t)
+  (company-tooltip-align-annotations 't)
+  (global-company-mode t))
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
 
 (defun reload-init-file ()
   (interactive)
@@ -337,6 +417,7 @@ one, an error is signaled."
 (use-package which-key
   :init
     (which-key-mode 1)
+  :diminish
   :config
   (setq which-key-side-window-location 'bottom
 	  which-key-sort-order #'which-key-key-order-alpha
@@ -348,7 +429,7 @@ one, an error is signaled."
 	  which-key-side-window-max-height 0.25
 	  which-key-idle-delay 0.8
 	  which-key-max-description-length 25
-	  which-key-allow-imprecise-window-fit t
+	  which-key-allow-imprecise-window-fit nil
 	  which-key-separator " → " ))
 
 (save-place-mode 1)
