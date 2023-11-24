@@ -1,16 +1,20 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/nico/Dev/C/Platformer_Opengl/src/main.c" . 447)
+(("/home/nico/.config/emacs/config.org" . 4955)
+ ("/home/nico/.config/emacs/games/tetris-scores" . 59)
+ ("/home/nico/Bilder/wallpaper/"
+  (dired-filename . "/home/nico/Bilder/wallpaper/ksnip_20230903-215718.png"))
+ ("/home/nico/.config/emacs/"
+  (dired-filename . "/home/nico/.config/emacs/images"))
+ ("/home/nico/.config/emacs/.gitignore" . 42)
+ ("/home/nico/Dev/C/Platformer_Opengl/src/main.c" . 318)
  ("/home/nico/.config/"
   (dired-filename . "/home/nico/.config/yay"))
  ("/home/nico/Dev/3ds/Platformer_Lua/"
   (dired-filename . "/home/nico/Dev/3ds/Platformer_Lua/main.lua"))
  ("/home/nico/Dev/3ds/Platformer_Lua/main.lua" . 77)
- ("/home/nico/.config/emacs/config.org" . 16258)
  ("/home/nico/.config/emacs/eshell/aliases" . 548)
  ("/home/nico/.config/emacs/eshell/"
   (dired-filename . "/home/nico/.config/emacs/eshell/history"))
- ("/home/nico/.config/emacs/"
-  (dired-filename . "/home/nico/.config/emacs/.."))
  ("/home/nico/.config/zsh/"
   (dired-filename . "/home/nico/.config/zsh/.zshrc"))
  ("/home/nico/.config/zsh/.zshrc" . 1080)

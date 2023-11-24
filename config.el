@@ -80,8 +80,7 @@
   ; Buffer keybinds
   (nicodevstuff/leader-keys
     "b" '(:ignore t :wk "buffer")
-    "b b" '(switch-to-buffer :wk "Switch buffer")
-    "b i" '(ibuffer :wk "Ibuffer")
+    "b i" '(lambda () (interactive) (ibuffer t) :wk "Ibuffer")    
     "b k" '(kill-this-buffer :wk "Kill this buffer")
     "b r" '(revert-buffer :wk "Reload buffer")
     "b m" '(next-buffer :wk "Next buffer")
@@ -125,7 +124,7 @@
     "t" '(:ignore t :wk "Terminal")
     "t t" '(vterm-toggle :wk "Toggle VTerm")
     "t e" '(eshell :wk "Open Eshell"))
-
+  
   ; lisp-related binds
   (nicodevstuff/leader-keys
     "e" '(:ignore t :wk "Evaluate")    
@@ -145,6 +144,7 @@
   (nicodevstuff/leader-keys
     "f f" '(find-file :wk "Find File")
     "."   '(find-file :wk "Find File")
+    "f d" '(treemacs :wk "Toggle Treemacs")
     "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Open Emacs Config")
     "f r" '(counsel-recentf :wk "Find recent files")
     "g c" '(comment-line :wk "Comment lines")))
@@ -163,6 +163,10 @@
 
 (use-package rainbow-mode
   :hook org-mode prog-mode)
+
+(use-package beacon
+  :init
+  (beacon-mode 1))
 
 (set-face-attribute 'default nil
   :font "JetBrains Mono"
@@ -206,6 +210,33 @@
 
 (use-package diminish)
 
+(use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "sxiv")
+                                ("jpg" . "sxiv")
+                                ("png" . "sxiv")
+                                ("mkv" . "mpv")
+                                ("mp4" . "mpv"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
+
+;;(add-hook 'peep-dired-hook 'evil-normalize-keymaps)
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+(use-package treemacs)
+(use-package treemacs-evil)
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
@@ -217,11 +248,16 @@
   
 (setq org-edit-src-content-indentation 0)
 
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
+(setq mouse-wheel-progressive-speed nil)
+
 (setq-default tab-width 4)
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
 (setq-default smart-indent t)
 (setq-default auto-indent t)
+
+(setq backup-directory-alist '((".*" . "~/.Trash")))
 
 (require 'windmove)
 
