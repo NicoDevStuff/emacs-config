@@ -1,2 +1,4 @@
+/home/nico/.config/emacs/.gitignore
+/home/nico/.config/emacs/#.gitignore#
 /home/nico/.config/emacs/config.org
 /home/nico/.config/emacs/#config.org#
