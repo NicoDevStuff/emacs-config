@@ -138,16 +138,21 @@
     "h" '(:ignore t :wk "Help")
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
-    ;;"h r r" '((lambda () (interactive) (load-file "~/.config/emacs/init.el")) :wk "Reload emacs config"))
     "h r r" '(reload-init-file :wk "Reload emacs config"))
 
   (nicodevstuff/leader-keys
     "f f" '(find-file :wk "Find File")
     "."   '(find-file :wk "Find File")
-    "f d" '(treemacs :wk "Toggle Treemacs")
+    "f d" '(neotree-toggle :wk "Open Neotree")
     "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Open Emacs Config")
     "f r" '(counsel-recentf :wk "Find recent files")
-    "g c" '(comment-line :wk "Comment lines")))
+    "g c" '(comment-line :wk "Comment lines"))
+
+  (nicodevstuff/leader-keys
+    "n" '(:ignore t :wk "Neotree")
+    "n c" '(neotree-create-node :wk "Neotree Create Node")
+    "n r" '(neotree-rename-node :wk "Neotree Rename Node")
+    "n d" '(neotree-delete-node :wk "Neotree Delete Node")))
 
 (use-package all-the-icons
   :ensure t
@@ -156,10 +161,23 @@
 (use-package all-the-icons-dired
   :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 
-(use-package gruvbox-theme
-  :ensure t
+(use-package doom-themes
   :config
-  (load-theme 'gruvbox-dark-medium t))
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  (load-theme 'doom-gruvbox t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 (use-package rainbow-mode
   :hook org-mode prog-mode)
@@ -234,8 +252,22 @@
   :ensure t
   :init (doom-modeline-mode 1))
 
-(use-package treemacs)
-(use-package treemacs-evil)
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 30
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+        ;; truncate long file names in neotree
+        (add-hook 'neo-after-create-hook
+           #'(lambda (_)
+               (with-current-buffer (get-buffer neo-buffer-name)
+                 (setq truncate-lines t)
+                 (setq word-wrap nil)
+                 (make-local-variable 'auto-hscroll-mode)
+                 (setq auto-hscroll-mode nil)))))
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -244,8 +276,6 @@
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
 
-(electric-indent-mode -1)
-  
 (setq org-edit-src-content-indentation 0)
 
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
@@ -256,6 +286,8 @@
 (setq-default c-basic-offset 4)
 (setq-default smart-indent t)
 (setq-default auto-indent t)
+
+(electric-indent-mode 1) ;; Ensure electric-indent-mode is enabled
 
 (setq backup-directory-alist '((".*" . "~/.Trash")))
 
@@ -423,6 +455,10 @@ one, an error is signaled."
   :diminish
   :init (global-flycheck-mode))
 
+(use-package tree-sitter
+  :ensure t
+  :init)
+
 (use-package company
   :defer 2
   :diminish
@@ -438,6 +474,19 @@ one, an error is signaled."
   :after company
   :diminish
   :hook (company-mode . company-box-mode))
+
+(use-package cmake-ide
+ :init
+ (cmake-ide-setup))
+
+(use-package git-gutter
+  :ensure t
+  :config
+  (setq git-gutter:added-sign "+"
+        git-gutter:modified-sign "~"
+        git-gutter:deleted-sign "-")
+  :hook (prog-mode . git-gutter-mode)
+  :init)
 
 (defun reload-init-file ()
   (interactive)

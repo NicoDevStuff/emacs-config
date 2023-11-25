@@ -5,9 +5,6 @@
 #+OPTIONS: toc: 2
 
 * Table of contents: :toc:
-- [[#todo][TODO]]
-  - [[#git-integration][Git integration]]
-  - [[#cmake][Cmake]]
 - [[#package-manager-elpaca][Package Manager (Elpaca)]]
 - [[#evil-mode-and-redoing][Evil Mode and Redoing]]
 - [[#keybinds-generalel][Keybinds (General.el)]]
@@ -20,7 +17,7 @@
 - [[#diminish][Diminish]]
 - [[#dired][DirEd]]
 - [[#modeline-customisation][Modeline Customisation]]
-- [[#treemacs][Treemacs]]
+- [[#neotree][Neotree]]
 - [[#gui-setup-eg-disabling-the-menubar-and-adding-line-numbers][Gui Setup (eg. Disabling the Menubar and adding line numbers)]]
 - [[#better-scrolling]["Better" Scrolling]]
 - [[#set-the-tab--and-shiftwidth][Set the Tab- and Shiftwidth]]
@@ -34,15 +31,14 @@
 - [[#org-mode-toc-and-bullet-points][Org mode TOC and Bullet Points]]
 - [[#language-support][Language Support]]
 - [[#syntax-checker-flycheck][Syntax Checker (Flycheck)]]
+- [[#treesitter][Treesitter]]
 - [[#completion-engine-company][Completion Engine (Company)]]
+- [[#cmake-integration][Cmake integration]]
+- [[#git][Git]]
 - [[#hot-reloading][Hot reloading]]
 - [[#sudo-edit-files][Sudo edit files]]
 - [[#which-key][Which-key]]
 - [[#activate-saveplaceel][Activate Saveplace.el]]
-
-* TODO
-** Git integration
-** Cmake
 
 * Package Manager (Elpaca)
 #+begin_src elisp
@@ -193,16 +189,22 @@
     "h" '(:ignore t :wk "Help")
     "h f" '(describe-function :wk "Describe function")
     "h v" '(describe-variable :wk "Describe variable")
-    ;;"h r r" '((lambda () (interactive) (load-file "~/.config/emacs/init.el")) :wk "Reload emacs config"))
     "h r r" '(reload-init-file :wk "Reload emacs config"))
 
   (nicodevstuff/leader-keys
     "f f" '(find-file :wk "Find File")
     "."   '(find-file :wk "Find File")
-    "f d" '(treemacs :wk "Toggle Treemacs")
+    "f d" '(neotree-toggle :wk "Open Neotree")
     "f c" '((lambda () (interactive) (find-file "~/.config/emacs/config.org")) :wk "Open Emacs Config")
     "f r" '(counsel-recentf :wk "Find recent files")
-    "g c" '(comment-line :wk "Comment lines")))
+    "g c" '(comment-line :wk "Comment lines"))
+
+  (nicodevstuff/leader-keys
+    "n" '(:ignore t :wk "Neotree")
+    "n c" '(neotree-create-node :wk "Neotree Create Node")
+    "n r" '(neotree-rename-node :wk "Neotree Rename Node")
+    "n d" '(neotree-delete-node :wk "Neotree Delete Node")))
+
 #+end_src
 
 * Icons
@@ -218,10 +220,23 @@ Like the name suggests, it loads all the icons
 
 * Color Scheme (Gruvbox)
 #+begin_src elisp
-(use-package gruvbox-theme
-  :ensure t
+(use-package doom-themes
   :config
-  (load-theme 'gruvbox-dark-medium t))
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  (load-theme 'doom-gruvbox t)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+  (doom-themes-treemacs-config)
+  
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 #+end_src
 
 * Rainbow Mode
@@ -320,10 +335,24 @@ Like the name suggests, it loads all the icons
   :init (doom-modeline-mode 1))
 #+end_src
 
-* Treemacs
+* Neotree
 #+begin_src elisp
-(use-package treemacs)
-(use-package treemacs-evil)
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 30
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+        ;; truncate long file names in neotree
+        (add-hook 'neo-after-create-hook
+           #'(lambda (_)
+               (with-current-buffer (get-buffer neo-buffer-name)
+                 (setq truncate-lines t)
+                 (setq word-wrap nil)
+                 (make-local-variable 'auto-hscroll-mode)
+                 (setq auto-hscroll-mode nil)))))
 #+end_src
 
 * Gui Setup (eg. Disabling the Menubar and adding line numbers)
@@ -335,8 +364,6 @@ Like the name suggests, it loads all the icons
 (global-display-line-numbers-mode 1)
 (global-visual-line-mode t)
 
-(electric-indent-mode -1)
-  
 (setq org-edit-src-content-indentation 0)
 #+end_src
 
@@ -353,6 +380,8 @@ Like the name suggests, it loads all the icons
 (setq-default c-basic-offset 4)
 (setq-default smart-indent t)
 (setq-default auto-indent t)
+
+(electric-indent-mode 1) ;; Ensure electric-indent-mode is enabled
 #+end_src
 
 * Change Backup naming
@@ -558,6 +587,13 @@ Python: =python-pylint=
   :init (global-flycheck-mode))
 #+end_src
 
+* Treesitter
+#+begin_src elisp
+(use-package tree-sitter
+  :ensure t
+  :init)
+#+end_src
+
 * Completion Engine (Company)
 #+begin_src elisp
 (use-package company
@@ -575,6 +611,25 @@ Python: =python-pylint=
   :after company
   :diminish
   :hook (company-mode . company-box-mode))
+#+end_src
+
+* Cmake integration
+#+begin_src elisp
+(use-package cmake-ide
+ :init
+ (cmake-ide-setup))
+#+end_src
+
+* Git
+#+begin_src elisp
+(use-package git-gutter
+  :ensure t
+  :config
+  (setq git-gutter:added-sign "+"
+        git-gutter:modified-sign "~"
+        git-gutter:deleted-sign "-")
+  :hook (prog-mode . git-gutter-mode)
+  :init)
 #+end_src
 
 * Hot reloading

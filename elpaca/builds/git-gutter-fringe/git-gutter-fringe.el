@@ -1,0 +1,1 @@
+/home/nico/.config/emacs/elpaca/repos/git-gutter-fringe/git-gutter-fringe.el

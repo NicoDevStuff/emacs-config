@@ -1,0 +1,1 @@
+/home/nico/.config/emacs/elpaca/repos/smooth-scrolling/smooth-scrolling.el
