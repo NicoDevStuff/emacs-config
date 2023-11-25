@@ -1,7 +1,10 @@
 ;;; -*- coding: utf-8; mode: lisp-data -*-
-(("/home/nico/Dev/C/TigerJython_Remake/src/turtle/turtle.c" . 736)
- ("/home/nico/Dev/C/TigerJython_Remake/src/main.c" . 302)
- ("/home/nico/Dev/C/TigerJython_Remake/" . 1020)
+(("/home/nico/Dev/C/TigerJython_Remake/src/main.c" . 290)
+ ("/home/nico/Dev/C/TigerJython_Remake/"
+  (dired-filename . "/home/nico/Dev/C/TigerJython_Remake/res"))
+ ("/home/nico/Dev/C/TigerJython_Remake/src/" . 299)
+ ("/home/nico/Dev/C/TigerJython_Remake/CMakeLists.txt" . 919)
+ ("/home/nico/Dev/C/TigerJython_Remake/src/turtle/turtle.c" . 736)
  ("/home/nico/.config/emacs/config.org" . 12318)
  ("/home/nico/Dev/C/Platformer_Opengl/"
   (dired-filename . "/home/nico/Dev/C/Platformer_Opengl/res"))

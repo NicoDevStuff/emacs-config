@@ -186,24 +186,31 @@
   :init
   (beacon-mode 1))
 
+(setq pfontsize 14)
+(setq sfontsize 15)
+; Small screen vars
+;(setq pfontsize 13)
+;(setq sfontsize 14)
+
 (set-face-attribute 'default nil
   :font "JetBrains Mono"
-  :height 140
+  :height (* pfontsize 10)
   :weight 'medium)
 (set-face-attribute 'variable-pitch nil
   :font "Ubuntu"
-  :height 150
+  :height (* sfontsize 10)
   :weight 'medium)
 (set-face-attribute 'fixed-pitch nil
   :font "JetBrains Mono"
-  :height 140
+  :height (* pfontsize 10)
   :weight 'medium)
 (set-face-attribute 'font-lock-comment-face nil
   :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil
   :slant 'italic)
 
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-14"))
+(add-to-list 'default-frame-alist
+             `(font . ,(concat "JetBrains Mono-" (number-to-string pfontsize))))
 
 (setq-default line-spacing 0.12)
 
@@ -476,8 +483,8 @@ one, an error is signaled."
   :hook (company-mode . company-box-mode))
 
 (use-package cmake-ide
- :init
- (cmake-ide-setup))
+  :init
+  (cmake-ide-setup))
 
 (use-package git-gutter
   :ensure t
